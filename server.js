@@ -18,10 +18,7 @@ let dataBase;
 let linksCollection;
 
 // Use connect method to connect to the server
-const tempURI =
-  'mongodb+srv://wendersonpdas:neversaynever@short-url-a0hh8.mongodb.net/short-url';
-
-MongoClient.connect(tempURI || process.env.MONGOLAB_URI, (err, client) => {
+MongoClient.connect(process.env.MONGOLAB_URI, (err, client) => {
   console.log('Connected successfully to server');
 
   dataBase = client.db(dbName);
