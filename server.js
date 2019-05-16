@@ -1,37 +1,88 @@
 'use strict';
 
-var express = require('express');
-var mongo = require('mongodb');
-var mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
+const validUrl = require('valid-url');
+const shortid = require('shortid');
+const cors = require('cors');
+const app = express();
 
-var cors = require('cors');
+// Basic Configuration
+const port = process.env.PORT || 3000;
 
-var app = express();
+// MongoDB
+// Database Name
+const dbName = 'short-url';
+let dataBase;
+let linksCollection;
 
-// Basic Configuration 
-var port = process.env.PORT || 3000;
+// Use connect method to connect to the server
+const tempURI =
+  'mongodb+srv://wendersonpdas:neversaynever@short-url-a0hh8.mongodb.net/short-url';
 
-/** this project needs a db !! **/ 
-// mongoose.connect(process.env.MONGOLAB_URI);
+MongoClient.connect(tempURI || process.env.MONGOLAB_URI, (err, client) => {
+  console.log('Connected successfully to server');
+
+  dataBase = client.db(dbName);
+  linksCollection = dataBase.collection('links');
+
+  // client.close();
+});
 
 app.use(cors());
 
-/** this project needs to parse POST bodies **/
-// you should mount the body-parser here
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-  
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+// New Shortcut
+app.post('/api/shorturl/new/:url?', (req, res) => {
+  const { url } = req.body;
+  const originDomain = `${req.protocol}://${req.headers.host}/`;
+
+  if (validUrl.isUri(url)) {
+    const shortCode = shortid.generate();
+    // Alphanumeric only
+    shortid.characters(
+      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@'
+    );
+
+    // Create and register newUrl
+    const newUrl = { url: url, short: shortCode };
+    linksCollection.insert([newUrl]);
+
+    res.json({
+      original_url: url,
+      short_url: `${originDomain}api/shorturl/${shortCode}`
+    });
+  } else {
+    res.status(400).json({
+      error: 'invalid URL'
+    });
+  }
 });
 
+// Redirects to the original url
+app.get('/api/shorturl/:short', (req, res) => {
+  const { short } = req.params;
 
-app.listen(port, function () {
+  linksCollection.findOne({ short: short }, { url: 1, _id: 0 }, (err, doc) => {
+    if (doc != null) {
+      res.redirect(doc.url);
+    } else {
+      res.status(404).json({ error: 'Shortlink not found in the database.' });
+    }
+  });
+});
+
+app.listen(port, () => {
   console.log('Node.js listening ...');
 });

@@ -1,0 +1,68 @@
+---
+  0 debug pnpm:scope: 
+    selected: 1
+    workspacePrefix: null
+  1 info pnpm: 
+    message: "A store server is running. All store manipulations are delegated to it."
+    prefix: "/app"
+  2 debug pnpm:package-json: 
+    initial: 
+      name: "shorturl"
+      version: "0.0.1"
+      description: "API project for freeCodeCamp"
+      main: "server.js"
+      scripts: 
+        start: "node server.js"
+      dependencies: 
+        express: "^5.0.0-alpha.2"
+        mongodb: "^2.2.5"
+        mongoose: "^4.5.7"
+        cors: "^2.8.1"
+        body-parser: "^1.15.2"
+        valid-url: "@1.0.9"
+        shortid: "@2.2.14"
+      engines: 
+        node: "4.4.5"
+      repository: 
+        type: "git"
+        url: "https://hyperdev.com/#!/project/welcome-project"
+      keywords: 
+        - "node"
+        - "hyperdev"
+        - "express"
+      license: "MIT"
+      readme: "# API Project: URL Shortener Microservice for freeCodeCamp\n\n\n### User Stories\n\n1. I can POST a URL to `[project_url]/api/shorturl/new` and I will receive a shortened URL in the JSON response. Example : `{\"original_url\":\"www.google.com\",\"short_url\":1}`\n2. If I pass an invalid URL that doesn't follow the valid `http(s)://www.example.com(/more/routes)` format, the JSON response will contain an error like `{\"error\":\"invalid URL\"}`. *HINT*: to be sure that the submitted url points to a valid site you can use the function `dns.lookup(host, cb)` from the `dns` core module.\n3. When I visit the shortened URL, it will redirect me to my original link.\n\n\n#### Creation Example:\n\nPOST [project_url]/api/shorturl/new - body (urlencoded) :  url=https://www.google.com\n\n#### Usage:\n\n[this_project_url]/api/shorturl/3\n\n#### Will redirect to:\n\nhttps://www.freecodecamp.org/forum/"
+      readmeFilename: "README.md"
+      gitHead: "debacc87ee559b7ff41eea8ab9dc38822de9a0ce"
+      _id: "shorturl@0.0.1"
+    prefix: "/app"
+  3 warn pnpm: 
+    message: "Moving valid-url that was installed by a different package manager to \"node_modules/.ignored"
+    prefix: "/app"
+  4 warn pnpm: 
+    message: "Moving shortid that was installed by a different package manager to \"node_modules/.ignored"
+    prefix: "/app"
+  5 debug pnpm:stage: 
+    prefix: "/app"
+    stage: "resolution_started"
+  6 debug pnpm:progress: 
+    packageId: "registry.npmjs.org/express/5.0.0-alpha.7"
+    requester: "/app"
+    status: "resolved"
+  7 debug pnpm:progress: 
+    packageId: "registry.npmjs.org/mongodb/2.2.36"
+    requester: "/app"
+    status: "resolved"
+  8 debug pnpm:progress: 
+    packageId: "registry.npmjs.org/mongoose/4.13.18"
+    requester: "/app"
+    status: "resolved"
+  9 debug pnpm:progress: 
+    packageId: "registry.npmjs.org/cors/2.8.5"
+    requester: "/app"
+    status: "resolved"
+  10 debug pnpm:progress: 
+    packageId: "registry.npmjs.org/body-parser/1.19.0"
+    requester: "/app"
+    status: "resolved"
+  11 error pnpm: "Cannot resolve valid-url@@1.0.9 packages not supported"
