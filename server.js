@@ -19,7 +19,7 @@ let linksCollection;
 
 // Use connect method to connect to the server
 MongoClient.connect(process.env.MONGOLAB_URI, (err, client) => {
-  console.log('Connected successfully to server');
+  console.log('Connected successfully to server!');
 
   dataBase = client.db(dbName);
   linksCollection = dataBase.collection('links');
